@@ -97,11 +97,11 @@ def display_hardware_specs(specs_details, allocated_keys):
                 hard_disk_miner = details['hard_disk']
                 hard_disk = "{:.2f}".format(hard_disk_miner['free'] / 1024.0 ** 3)  # Convert bytes to GiB
 
-                row = [hotkey, gpu_name, gpu_capacity, str(gpu_count), str(cpu_count), ram, hard_disk, "Pending"]
+                row = [hotkey[:6] + ('...'), gpu_name, gpu_capacity, str(gpu_count), str(cpu_count), ram, hard_disk, "Pending"]
             except (KeyError, IndexError, TypeError):
-                row = [hotkey, "Invalid details"] + ["N/A"] * 6
+                row = [hotkey[:6] + ('...'), "Invalid details"] + ["N/A"] * 6
         else:
-            row = [hotkey] + ["No details available"] + ["N/A"] * 6
+            row = [hotkey[:6] + ('...')] + ["No details available"] + ["N/A"] * 6
 
         row[-1] = "Res." if hotkey in allocated_keys else "Avail."  # Allocation check
         table_data.append(row)
