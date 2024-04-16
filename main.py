@@ -1,7 +1,7 @@
 import streamlit as st
 
 # Configure the page to use wide layout
-st.set_page_config(layout="wide")
+st.set_page_config(page_title="Opencompute", layout="wide", page_icon ="icon.ico")
 
 import wandb
 import os
