@@ -1,0 +1,21 @@
+[server]
+maxUploadSize = 10
+
+[client]
+showErrorDetails = false
+
+[theme]
+# The preset Streamlit theme that your custom theme inherits from. One of "light" or "dark".
+# base ="light"
+# Primary accent for interactive elements
+primaryColor = '#316CD3'
+# Background color for the main content area
+backgroundColor = '#141518'
+# Background color for sidebar and most interactive widgets
+secondaryBackgroundColor = '#27292C'
+# Color used for almost all text
+textColor = '#FFFFFF'
+# Font family for all text in the app, except code blocks
+# Accepted values (serif | sans serif | monospace)
+# Default: "sans serif"
+font = "sans serif"
