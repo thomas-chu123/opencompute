@@ -30,7 +30,8 @@ def fetch_hardware_specs(api):
             run_config = run.config
             hotkey = run_config.get('hotkey')
             details = run_config.get('specs')
-            if hotkey and details:
+            role = run_config.get('role')
+            if hotkey and details and role == 'miner':
                 db_specs_dict[hotkey] = details
     except Exception as e:
         print(f"An error occurred while getting specs from wandb: {e}")
@@ -98,6 +99,12 @@ def display_hardware_specs(specs_details, allocated_keys):
                 hard_disk = "{:.2f}".format(hard_disk_miner['free'] / 1024.0 ** 3)  # Convert bytes to GiB
 
                 row = [hotkey[:6] + ('...'), gpu_name, gpu_capacity, str(gpu_count), str(cpu_count), ram, hard_disk, "Pending"]
+
+                # Update summaries for GPU instances and total counts
+                if isinstance(gpu_name, str) and isinstance(gpu_count, int):
+                    gpu_instances[gpu_key] = gpu_instances.get(gpu_key, 0) + 1
+                    total_gpu_counts[gpu_name] = total_gpu_counts.get(gpu_name, 0) + gpu_count
+            
             except (KeyError, IndexError, TypeError):
                 row = [hotkey[:6] + ('...'), "Invalid details"] + ["N/A"] * 6
         else:
@@ -105,11 +112,6 @@ def display_hardware_specs(specs_details, allocated_keys):
 
         row[-1] = "Res." if hotkey in allocated_keys else "Avail."  # Allocation check
         table_data.append(row)
-
-        # Update summaries for GPU instances and total counts
-        gpu_key = (gpu_name, gpu_count)
-        gpu_instances[gpu_key] = gpu_instances.get(gpu_key, 0) + 1
-        total_gpu_counts[gpu_name] = total_gpu_counts.get(gpu_name, 0) + gpu_count
 
     # Display the tabs
     tab1, tab2, tab3 = st.tabs(["Hardware Overview", "Instances Summary", "Total GPU Counts"])
